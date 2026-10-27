@@ -152,6 +152,14 @@
   .deck.b li a.title:hover { border-color: var(--pink); }
   .deck li p { margin: 6px 0 0; color: var(--muted); max-width: 52ch; }
 
+  .book { padding-block: 56px 24px; border-top: 1px solid var(--grid); margin-top: 32px; }
+  .book h2 { margin: 0 0 8px; font-family: var(--display); font-weight: 700; font-size: 2rem; line-height: 1.1; }
+  .book > p { margin: 0 0 20px; color: var(--muted); max-width: 52ch; }
+  .contact { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--grid); max-width: 560px; }
+  .contact li { display: flex; gap: 24px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--grid); }
+  .contact span { width: 96px; flex: none; color: var(--muted); }
+  .contact a { font-family: var(--display); font-weight: 600; font-size: 1.2rem; overflow-wrap: anywhere; }
+
   footer { padding-block: 40px 64px; color: var(--muted); }
   footer .links { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 0 0 14px; padding: 0; list-style: none; }
   footer .links a { font-family: var(--display); font-weight: 600; color: var(--text); }
@@ -230,6 +238,15 @@
         </li>
       </ul>
     </div>
+  </section>
+
+  <section class="book wrap" id="book" aria-labelledby="bk">
+    <h2 id="bk">Book me</h2>
+    <p>DJ sets, original music and electronics or scripting projects. Send the date, the venue and what you have in mind.</p>
+    <ul class="contact">
+      <li><span>Email</span><a href="mailto:zheka0140@gmail.com">zheka0140@gmail.com</a></li>
+      <li><span>Instagram</span><a href="https://www.instagram.com/zheka0140/">@zheka0140</a></li>
+    </ul>
   </section>
 </main>
 
