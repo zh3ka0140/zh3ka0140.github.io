@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AndrewDovgoruk | ECE nerd, DJ, producer</title>
+<meta name="description" content="I write scripts, make songs and mix. Electronic music meets code.">
+<meta name="theme-color" content="#1a1210">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231a1210'/%3E%3Cpath d='M2 16 Q7 3 12 16 T22 16 T30 16' fill='none' stroke='%23ffa24a' stroke-width='2.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bezel: #1a1210;
+    --grid: #35262a;
+    --text: #f3e8dc;
+    --muted: #b19d90;
+    --amber: #ffa24a;
+    --pink: #ff5fb8;
+    --deckA: 1;
+    --deckB: 1;
+    --display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+    --body: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0;
+    background: var(--bezel);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  a:focus-visible, input:focus-visible {
+    outline: 3px solid var(--pink);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 24px; }
+
+  header.top { padding-block: 28px 0; }
+  header.top p {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: .02em;
+  }
+
+  .hero { padding-block: 56px 24px; }
+  h1 {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(2.4rem, 7.2vw, 5.4rem);
+    line-height: 1.02;
+    letter-spacing: -.01em;
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+  .sub {
+    margin: 22px 0 0;
+    max-width: 46ch;
+    color: var(--muted);
+    font-size: 1.15rem;
+  }
+
+  /* the scope */
+  .scope {
+    margin-top: 40px;
+    border: 1px solid var(--grid);
+    border-radius: 14px;
+    background: #140c0e;
+    box-shadow: inset 0 0 60px rgba(255, 95, 184, .05);
+    overflow: hidden;
+  }
+  .scope canvas { display: block; width: 100%; height: clamp(240px, 38vh, 400px); }
+
+  /* crossfader */
+  .fader { margin-top: 22px; }
+  .fader-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 18px;
+  }
+  .fader-row span {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .fader-row .a { color: var(--amber); }
+  .fader-row .b { color: var(--pink); }
+  input[type=range] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 44px; background: transparent; margin: 0; cursor: grab;
+  }
+  input[type=range]:active { cursor: grabbing; }
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 6px; border-radius: 3px;
+    background: linear-gradient(90deg, var(--amber), var(--pink));
+  }
+  input[type=range]::-moz-range-track {
+    height: 6px; border-radius: 3px;
+    background: linear-gradient(90deg, var(--amber), var(--pink));
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 30px; height: 44px; margin-top: -19px;
+    background: #f3e8dc; border-radius: 4px;
+    border: 0; box-shadow: 0 2px 0 #9b8576, inset 0 0 0 1px #d9c7b5, inset 0 -3px 0 #1a1210, inset 0 3px 0 #1a1210;
+    background-image: linear-gradient(#1a1210, #1a1210);
+    background-size: 2px 22px; background-repeat: no-repeat; background-position: center;
+    background-color: #f3e8dc;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 30px; height: 44px; border: 0; border-radius: 4px;
+    background: #f3e8dc linear-gradient(#1a1210, #1a1210) center / 2px 22px no-repeat;
+    box-shadow: 0 2px 0 #9b8576;
+  }
+  .hint { margin: 6px 0 0; color: var(--muted); font-size: .95rem; }
+
+  /* decks */
+  .decks { padding-block: 56px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  .deck { transition: opacity .25s ease; }
+  .deck.a { opacity: var(--deckA); }
+  .deck.b { opacity: var(--deckB); }
+  .deck h2 {
+    margin: 0 0 6px;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+  .deck.a h2 { color: var(--amber); }
+  .deck.b h2 { color: var(--pink); }
+  .deck > p { margin: 0 0 20px; color: var(--muted); max-width: 44ch; }
+  .deck ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--grid); }
+  .deck li { padding: 18px 0; border-bottom: 1px solid var(--grid); }
+  .deck li a.title {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+  }
+  .deck.a li a.title:hover { border-color: var(--amber); }
+  .deck.b li a.title:hover { border-color: var(--pink); }
+  .deck li p { margin: 6px 0 0; color: var(--muted); max-width: 52ch; }
+
+  footer { padding-block: 40px 64px; color: var(--muted); }
+  footer .links { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 0 0 14px; padding: 0; list-style: none; }
+  footer .links a { font-family: var(--display); font-weight: 600; color: var(--text); }
+  footer small { font-size: .9rem; }
+
+  @media (max-width: 760px) {
+    .decks { grid-template-columns: 1fr; gap: 44px; }
+    .hero { padding-block-start: 40px; }
+    .fader-row { gap: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .deck { transition: none; }
+  }
+
+  /* film grain and lamp-light vignette, matching the photos */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 5;
+    background: radial-gradient(ellipse at 50% 30%, transparent 45%, rgba(10, 4, 6, .55) 100%);
+  }
+  body::after {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 6;
+    opacity: .09; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <p>AndrewDovgoruk</p>
+</header>
+
+<main>
+  <section class="hero wrap" aria-labelledby="h">
+    <h1 id="h">I write scripts, make songs and mix.</h1>
+    <p class="sub">ECE nerd, DJ and producer. An oscilloscope trace and an audio waveform are the same thing, so that is how this page works.</p>
+
+    <div class="scope"><canvas id="scope" role="img" aria-label="Animated oscilloscope showing two waveforms that blend as the crossfader moves"></canvas></div>
+
+    <div class="fader">
+      <div class="fader-row">
+        <span class="a">Build</span>
+        <input id="xf" type="range" min="0" max="100" value="50" aria-label="Crossfader between Build and Play" aria-valuetext="Even mix of Build and Play">
+        <span class="b">Play</span>
+      </div>
+      <p class="hint">Slide the fader. Left is circuits and code, right is music.</p>
+    </div>
+  </section>
+
+  <section class="decks wrap" aria-label="What I do">
+    <div class="deck a" id="deckA">
+      <h2>Build</h2>
+      <p>Python scripts and electronics projects. Mostly the tools I wish already existed.</p>
+      <ul>
+        <li>
+          <a class="title" href="https://github.com/AndrewDovgoruk/spotify-genre-sorter">spotify-genre-sorter</a>
+          <p>Sorts a Spotify library into niche genre playlists, so DJ prep stops being a chore. Python with one-click Windows launchers.</p>
+        </li>
+        <li>
+          <a class="title" href="https://github.com/AndrewDovgoruk/Group19-Oscope-Code-Repo">Group19-Oscope-Code-Repo</a>
+          <p>Code for a group oscilloscope project, which is also why the hero looks the way it does.</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="deck b" id="deckB">
+      <h2>Play</h2>
+      <p>Original songs and DJ mixes. Mostly techno, trance, melodic house and dubstep.</p>
+      <ul>
+        <li>
+          <a class="title" href="https://www.instagram.com/zheka0140/">Instagram: @zheka0140</a>
+          <p>Clips, sessions and whatever is on the decks this week.</p>
+        </li>
+        <li>
+          <span class="title" style="font-family:var(--display);font-weight:600;font-size:1.2rem">Mixes and tracks</span>
+          <p>Full recordings will be posted here once they are uploaded.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <ul class="links">
+    <li><a href="https://github.com/AndrewDovgoruk">GitHub</a></li>
+    <li><a href="https://www.instagram.com/zheka0140/">Instagram</a></li>
+  </ul>
+  <small>Hand-built with HTML, CSS and one canvas.</small>
+</footer>
+
+<script>
+(function () {
+  var canvas = document.getElementById('scope');
+  var ctx = canvas.getContext('2d');
+  var xf = document.getElementById('xf');
+  var deckA = document.getElementById('deckA');
+  var deckB = document.getElementById('deckB');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mix = 0.5, shown = 0.5, w = 0, h = 0, dpr = 1;
+  var AMBER = '#ffa24a', PINK = '#ff5fb8';
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = canvas.clientWidth; h = canvas.clientHeight;
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw(performance.now() / 1000);
+  }
+
+  function graticule() {
+    var cols = 12, rows = 8, i, x, y;
+    ctx.lineWidth = 1;
+    for (i = 0; i <= cols; i++) {
+      x = Math.round(i * w / cols) + .5;
+      ctx.strokeStyle = i === cols / 2 ? '#52393f' : '#2b1f22';
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+    }
+    for (i = 0; i <= rows; i++) {
+      y = Math.round(i * h / rows) + .5;
+      ctx.strokeStyle = i === rows / 2 ? '#52393f' : '#2b1f22';
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+    }
+    // minor ticks on the centre axes
+    ctx.strokeStyle = '#52393f';
+    for (i = 0; i < cols * 5; i++) {
+      x = Math.round(i * w / (cols * 5)) + .5;
+      ctx.beginPath(); ctx.moveTo(x, h / 2 - 4); ctx.lineTo(x, h / 2 + 4); ctx.stroke();
+    }
+    for (i = 0; i < rows * 5; i++) {
+      y = Math.round(i * h / (rows * 5)) + .5;
+      ctx.beginPath(); ctx.moveTo(w / 2 - 4, y); ctx.lineTo(w / 2 + 4, y); ctx.stroke();
+    }
+  }
+
+  // Deck A: clean, square-ish circuit signal. Deck B: audio-like, pulsing with a beat.
+  function sigA(u, t) {
+    var p = u * 6.2831853 * 3 - t * 1.4;
+    return Math.sin(p) + Math.sin(3 * p) / 3 + Math.sin(5 * p) / 5 + Math.sin(7 * p) / 7;
+  }
+  function sigB(u, t) {
+    var env = .3 + .7 * Math.pow(Math.abs(Math.sin(3.14159 * (u * 2.5 - t * .9))), 2);
+    var p = u * 6.2831853 * 11;
+    return env * (Math.sin(p + t * 6) * .7 + Math.sin(p * 2.03 - t * 9) * .4 + Math.sin(p * .5 + t * 3) * .5);
+  }
+
+  function trace(fn, color, gain, width, t) {
+    var n = Math.max(240, Math.floor(w / 2)), i, u, y;
+    ctx.beginPath();
+    for (i = 0; i <= n; i++) {
+      u = i / n; y = h / 2 - fn(u, t) * gain * h * .17;
+      if (i === 0) ctx.moveTo(u * w, y); else ctx.lineTo(u * w, y);
+    }
+    ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineJoin = 'round';
+    ctx.shadowColor = color; ctx.shadowBlur = 14;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, w, h);
+    graticule();
+    var gA = 0.12 + 0.88 * (1 - shown);
+    var gB = 0.12 + 0.88 * shown;
+    ctx.globalAlpha = .35 + .65 * (1 - shown); trace(sigA, AMBER, gA, 2.2, t);
+    ctx.globalAlpha = .35 + .65 * shown;       trace(sigB, PINK, gB, 2.2, t);
+    ctx.globalAlpha = .9;
+    trace(function (u, tt) { return (sigA(u, tt) * gA + sigB(u, tt) * gB) * .55; }, '#fff0e0', 1, 1.4, t);
+    ctx.globalAlpha = 1;
+  }
+
+  function label(v) {
+    if (v < 15) return 'Mostly Build';
+    if (v < 40) return 'Leaning Build';
+    if (v <= 60) return 'Even mix of Build and Play';
+    if (v <= 85) return 'Leaning Play';
+    return 'Mostly Play';
+  }
+
+  function applyMix() {
+    var root = document.documentElement.style;
+    root.setProperty('--deckA', (0.7 + 0.3 * (1 - mix)).toFixed(2));
+    root.setProperty('--deckB', (0.7 + 0.3 * mix).toFixed(2));
+    xf.setAttribute('aria-valuetext', label(mix * 100));
+  }
+
+  xf.addEventListener('input', function () {
+    mix = xf.value / 100; applyMix();
+    if (reduce) { shown = mix; draw(0.6); }
+  });
+
+  window.addEventListener('resize', resize);
+
+  function frame(ms) {
+    shown += (mix - shown) * 0.12;
+    draw(ms / 1000);
+    requestAnimationFrame(frame);
+  }
+
+  applyMix();
+  resize();
+  if (reduce) { draw(0.6); } else { requestAnimationFrame(frame); }
+})();
+</script>
+</body>
+</html>
